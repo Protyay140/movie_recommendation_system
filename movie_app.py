@@ -30,6 +30,17 @@ def recommend(movie):
         rec_movies_poster.append(fetch_poster(movies.iloc[i[0]].id))
     return rec_movies_list,rec_movies_poster;
 
+
+def get_that_movie(movie):
+    movie_index = movies[movies['title'] == movie ].index[0]
+    movie_id = movies.iloc[movie_index].id
+    movie_poster = fetch_poster(movie_id)
+    print("movie id : ",movie_id)
+    print("movie poster : ",movie_poster)
+
+    return movie_id , movie_poster
+
+
 selected_movie = st.selectbox(
     "Enter your favourite movie .",
     movies['title'],
@@ -38,7 +49,19 @@ selected_movie = st.selectbox(
 
 if st.button("Recommed"):
     name , poster = recommend(selected_movie);
-    
+    mname , mposter = get_that_movie(selected_movie)
+
+    st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;margin-bottom:30px ; border-radius:50px">
+        <img src="{mposter}" width="300">
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
+
+
+    st.markdown(f"""<div class='small-header' style="margin-bottom:3px">Other recommended movies</div>""", unsafe_allow_html=True)
     col1, col2, col3 , col4 , col5 = st.columns(5)
 
     with col1:
